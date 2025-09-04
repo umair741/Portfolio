@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umair Memon - AI Developer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1a202c;
+            --text-secondary: #4a5568;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border: #e2e8f0;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent: #60a5fa;
+            --accent-hover: #3b82f6;
+            --border: #334155;
+            --card-bg: #1e293b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 24px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.75rem;
+            padding: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 100px;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        .hero-text {
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero .intro {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2.75rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3.5rem;
+            color: var(--text-primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--bg-secondary);
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3.5rem;
+            line-height: 1.8;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .skill-category {
+            background-color: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .skill-category h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+
+        /* Projects Section */
+        .projects {
+            background-color: var(--bg-primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Project Images */
+        .project-image {
+            width: 100%;
+            height: 220px;
+            border-radius: 10px;
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-bg {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+        }
+
+        .rag-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .travel-bg {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .feedback-bg {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.25);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .project-card h3 {
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.75rem;
+            line-height: 1.7;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .tech-tag {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .workflow-text {
+            background-color: var(--bg-secondary);
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .code-snippet {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 2.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+        }
+
+        .contact-note {
+            background-color: var(--card-bg);
+            padding: 1.75rem;
+            border-radius: 10px;
+            margin-top: 2.5rem;
+            border-left: 5px solid var(--accent);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-primary);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--bg-primary);
+                flex-direction: column;
+                padding: 1.5rem;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .intro {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">UM</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div style="display: flex; gap: 1.5rem; align-items: center;">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Umair Memon</h1>
+                    <p class="intro">I build LLM-powered systems, RAG pipelines, and automation workflows using LangChain, LangGraph, n8n, and modern ML libraries.</p>
+                    <div class="cta-buttons">
+                        <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="mailto:umics38@gmail.com" class="btn btn-outline">Contact Me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section fade-in" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <p>I’m a passionate AI and machine learning developer dedicated to building intelligent solutions that bridge technology and real-world challenges. With a strong foundation in crafting advanced language model applications, vector database systems, and seamless automation workflows, I thrive on transforming complex ideas into practical, impactful tools. My expertise spans cutting-edge frameworks like LangChain, LangGraph, and n8n, enabling me to create innovative AI-driven systems that empower businesses and individuals alike. I’m driven by curiosity and a commitment to pushing the boundaries of what AI can achieve.</p>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>🤖 AI / Machine Learning</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">LLMs (Gemini)</span>
+                            <span class="skill-tag">OpenAI</span>
+                            <span class="skill-tag">Open-source Models</span>
+                            <span class="skill-tag">PyTorch</span>
+                            <span class="skill-tag">NLP</span>
+                            <span class="skill-tag">Matplotlib</span>
+                            <span class="skill-tag">Plotly</span>
+                            <span class="skill-tag">scikit-learn</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>🔗 LangChain Ecosystem</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">LangChain</span>
+                            <span class="skill-tag">LangGraph</span>
+                            <span class="skill-tag">LangSmith</span>
+                            <span class="skill-tag">Hugging Face</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>🗄️ Database & Automation</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">VectorDatabase ChromaDB</span>
+                            <span class="skill-tag">FAISS</span>
+                            <span class="skill-tag">Pinecone</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">SQL</span>
+                            
+                            <span class="skill-tag">n8n</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>🐍 Development</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">FastAPI</span>
+                            <span class="skill-tag">NumPy</span>
+                            <span class="skill-tag">pandas</span>
+                             <span class="skill-tag">Flash</span>
+                            <span class="skill-tag">Matplotlib</span>
+                            <span class="skill-tag">Plotly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects section fade-in" id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            
+            <div class="code-snippet">
+                <strong>Quick clone example:</strong><br>
+                <code>git clone https://github.com/umair741/rag_chatbot</code>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- WhatsApp Ordering Assistant -->
+                <div class="project-card">
+                    <div class="project-image whatsapp-bg">
+                        <span>📱</span>
+                        <div class="project-badge">WhatsApp Bot</div>
+                    </div>
+                    <h3>AI-Powered WhatsApp Ordering Assistant</h3>
+                    <p>An intelligent WhatsApp food ordering assistant built with n8n and Google Gemini. Features multilingual support (English, Urdu, Sindhi), real-time inventory checking via Google Sheets, and automated order management with Slack notifications.</p>
+                    
+                    <div class="workflow-text">
+                        <strong>Workflow:</strong> WhatsApp → AI Agent (Gemini) → Inventory Check → Order Processing<br>
+                        <strong>Features:</strong><br>
+                        • Multilingual chat support<br>
+                        • Live inventory validation<br>
+                        • Automated order tracking<br>
+                        • Slack & Gmail notifications
+                    </div>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">n8n</span>
+                        <span class="tech-tag">Google Gemini</span>
+                        <span class="tech-tag">WhatsApp API</span>
+                        <span class="tech-tag">Google Sheets</span>
+                        <span class="tech-tag">Slack API</span>
+                        <span class="tech-tag">Gmail API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/umair741/AI-Powered-WhatsApp-Ordering-Assistant-n8n-" target="_blank" class="btn btn-primary">View Code</a>
+                    </div>
+                </div>
+
+                <!-- RAG System -->
+                <div class="project-card">
+                    <div class="project-image rag-bg">
+                        <span>🧠</span>
+                        <div class="project-badge">RAG System</div>
+                    </div>
+                    <h3>RAG Chatbot (Retrieval-Augmented Generation)</h3>
+                    <p>A sophisticated RAG system that ingests PDFs, creates embeddings, stores them in vector databases, and serves contextual answers via a FastAPI backend using LangChain and LangGraph for intelligent document understanding.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">LangChain</span>
+                        <span class="tech-tag">LangGraph</span>
+                        <span class="tech-tag">ChromaDB</span>
+                        <span class="tech-tag">FAISS</span>
+                        <span class="tech-tag">Pinecone</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">LLM (Flash)</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/umair741/rag_chatbot" target="_blank" class="btn btn-primary">View Code</a>
+                    </div>
+                </div>
+
+                <!-- Travel AI Assistant -->
+                <div class="project-card">
+                    <div class="project-image travel-bg">
+                        <span>✈️</span>
+                        <div class="project-badge">AI Agent</div>
+                    </div>
+                    <h3>Travel AI Assistant (React-based Agent)</h3>
+                    <p>Intelligent travel companion that generates personalized itineraries and provides real-time suggestions using LangChain/LangGraph agents integrated with multiple external APIs for weather, places, and travel information.</p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">LangChain</span>
+                        <span class="tech-tag">LangGraph</span>
+                        <span class="tech-tag">FastAPI</span>
+                        <span class="tech-tag">LLM (Flash)</span>
+                        <span class="tech-tag">Geoapify</span>
+                        <span class="tech-tag">OpenWeatherMap</span>
+                        <span class="tech-tag">Tavily</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/umair741/travel_assitant" target="_blank" class="btn btn-primary">View Code</a>
+                    </div>
+                </div>
+
+                <!-- Customer Feedback Workflow -->
+                <div class="project-card">
+                    <div class="project-image feedback-bg">
+                        <span>📋</span>
+                        <div class="project-badge">Automation</div>
+                    </div>
+                    <h3>Customer Feedback Workflow (n8n)</h3>
+                    <p>Intelligent customer feedback processing system that automatically routes feedback through an AI agent to different workflows: complaints to Airtable → Slack → Gmail; compliments to Airtable → Slack; feature requests to Airtable → Slack.</p>
+                    
+                    <div class="workflow-text">
+                        <strong>Workflow:</strong> Form Trigger → AI Agent (n8n + LLM) → Merge → Switch<br>
+                        <strong>Routing Paths:</strong><br>
+                        • Complaints → Airtable → Slack → Gmail<br>
+                        • Compliments → Airtable → Slack<br>
+                        • Feature Requests → Airtable → Slack
+                    </div>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">n8n</span>
+                        <span class="tech-tag">LLM (Flash)</span>
+                        <span class="tech-tag">Airtable</span>
+                        <span class="tech-tag">Slack</span>
+                        <span class="tech-tag">Gmail</span>
+                        <span class="tech-tag">Webhook</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/umair741/Customer-feedback-workflow" target="_blank" class="btn btn-primary">View Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section fade-in" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <p>I'm always interested in discussing AI projects, collaborations, and new opportunities in the exciting world of artificial intelligence.</p>
+                
+                <div class="contact-info">
+                    <a href="mailto:umics38@gmail.com" class="contact-link">
+                        <span>📧</span>
+                        <span>umics38@gmail.com</span>
+                    </a>
+                    <a href="https://github.com/umair741" target="_blank" class="contact-link">
+                        <span>💼</span>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/umairmemon38" target="_blank" class="contact-link">
+                        <span>🔗</span>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+                
+                <div class="contact-note">
+                    <p><strong>Open to freelance & full-time AI roles</strong></p>
+                    <p>Ready to build intelligent systems that make a real difference in businesses and people's lives.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Umair Memon. Built with modern web technologies and a passion for AI.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Fade In Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
