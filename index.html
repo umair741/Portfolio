@@ -1,865 +1,795 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Umair Memon - AI Developer Portfolio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --text-primary: #1a202c;
-            --text-secondary: #4a5568;
-            --accent: #3b82f6;
-            --accent-hover: #2563eb;
-            --border: #e2e8f0;
-            --card-bg: #ffffff;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --accent: #60a5fa;
-            --accent-hover: #3b82f6;
-            --border: #334155;
-            --card-bg: #1e293b;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: var(--bg-primary);
-            transition: all 0.3s ease;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: var(--bg-primary);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 24px;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-            font-size: 1.5rem;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background-color: var(--bg-secondary);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-            font-size: 1.75rem;
-            padding: 0.5rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 140px 0 100px;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease forwards 0.5s;
-        }
-
-        .hero-text {
-            max-width: 700px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3.75rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-
-        .hero .intro {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background-color: var(--accent);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-3px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--accent);
-            border: 2px solid var(--accent);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--accent);
-            color: white;
-        }
-
-        /* Sections */
-        .section {
-            padding: 100px 0;
-        }
-
-        .section-title {
-            font-size: 2.75rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3.5rem;
-            color: var(--text-primary);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            width: 50px;
-            height: 3px;
-            background: var(--accent);
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* About Section */
-        .about {
-            background-color: var(--bg-secondary);
-        }
-
-        .about-content {
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .about p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 3.5rem;
-            line-height: 1.8;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3.5rem;
-        }
-
-        .skill-category {
-            background-color: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .skill-category:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
-        }
-
-        .skill-category h3 {
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-tag {
-            background-color: var(--bg-secondary);
-            color: var(--text-secondary);
-            padding: 0.5rem 1.25rem;
-            border-radius: 20px;
-            font-size: 1rem;
-        }
-
-        /* Projects Section */
-        .projects {
-            background-color: var(--bg-primary);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .project-card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--border);
-        }
-
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Project Images */
-        .project-image {
-            width: 100%;
-            height: 220px;
-            border-radius: 10px;
-            margin-bottom: 1.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .whatsapp-bg {
-            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-        }
-
-        .rag-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .travel-bg {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .feedback-bg {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .project-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(255,255,255,0.25);
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            color: white;
-            text-transform: uppercase;
-        }
-
-        .project-card h3 {
-            color: var(--text-primary);
-            font-size: 1.75rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .project-card p {
-            color: var(--text-secondary);
-            margin-bottom: 1.75rem;
-            line-height: 1.7;
-        }
-
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 1.75rem;
-        }
-
-        .tech-tag {
-            background-color: var(--accent);
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 18px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .workflow-text {
-            background-color: var(--bg-secondary);
-            padding: 1.25rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .code-snippet {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.25rem;
-            margin: 2.5rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        /* Contact Section */
-        .contact {
-            background-color: var(--bg-secondary);
-            text-align: center;
-        }
-
-        .contact-content {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            margin: 2.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 1.1rem;
-        }
-
-        .contact-link:hover {
-            color: var(--accent);
-        }
-
-        .contact-note {
-            background-color: var(--card-bg);
-            padding: 1.75rem;
-            border-radius: 10px;
-            margin-top: 2.5rem;
-            border-left: 5px solid var(--accent);
-        }
-
-        /* Footer */
-        .footer {
-            background-color: var(--bg-primary);
-            border-top: 1px solid var(--border);
-            padding: 2.5rem 0;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .hero-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero-text {
-                text-align: center;
-            }
-
-            .cta-buttons {
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: var(--bg-primary);
-                flex-direction: column;
-                padding: 1.5rem;
-                border-top: 1px solid var(--border);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero .intro {
-                font-size: 1.1rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-info {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umair Memon — AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf8f4;
+  --warm: #f5f0e8;
+  --ink: #1a1714;
+  --ink2: #3d3730;
+  --muted: #8a7f72;
+  --accent: #c8622a;
+  --accent-light: #f0ddd1;
+  --border: #e8e0d4;
+  --white: #ffffff;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.5rem 5vw;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(250,248,244,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.nav-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  padding: 0.55rem 1.35rem;
+  background: var(--ink);
+  color: var(--cream) !important;
+  border-radius: 2px;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 500 !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--accent) !important; color: white !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 0 5vw;
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg-text {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(120px, 20vw, 220px);
+  color: rgba(200,98,42,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.02em;
+}
+.hero-content {
+  max-width: 680px;
+  position: relative; z-index: 1;
+  opacity: 0; transform: translateY(30px);
+  animation: fadeUp 0.9s ease 0.2s forwards;
+}
+.hero-label {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.78rem; color: var(--accent);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 500; margin-bottom: 2rem;
+}
+.hero-label-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.75rem;
+  color: var(--ink);
+}
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+.hero-desc strong { color: var(--ink2); font-weight: 500; }
+.hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.btn-dark {
+  padding: 0.85rem 2rem;
+  background: var(--ink);
+  color: var(--cream);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
+  transition: background 0.2s, transform 0.2s;
+  display: inline-block;
+}
+.btn-dark:hover { background: var(--accent); transform: translateY(-1px); }
+.btn-outline {
+  padding: 0.85rem 2rem;
+  background: transparent;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  border: 1.5px solid var(--border);
+  border-radius: 2px;
+  transition: border-color 0.2s, color 0.2s;
+  display: inline-block;
+}
+.btn-outline:hover { border-color: var(--ink); }
+
+.hero-right {
+  position: absolute; right: 5vw; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 1px;
+  opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+}
+.hero-stat {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  min-width: 180px;
+  transition: border-color 0.2s;
+}
+.hero-stat:hover { border-color: var(--accent); }
+.hero-stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.2rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.35rem;
+}
+.hero-stat-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+/* ── MARQUEE ── */
+.marquee-wrap {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--warm);
+  overflow: hidden; padding: 1rem 0;
+}
+.marquee-track {
+  display: flex; gap: 0;
+  animation: marquee 25s linear infinite;
+  white-space: nowrap;
+}
+.marquee-item {
+  padding: 0 2.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+  display: flex; align-items: center; gap: 2.5rem;
+}
+.marquee-item::after {
+  content: '·';
+  color: var(--accent);
+  font-size: 1.2rem;
+}
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── SECTIONS ── */
+section { padding: 7rem 5vw; }
+.section-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.section-label::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 4rem;
+  max-width: 480px;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+
+/* ── ABOUT ── */
+#about { background: var(--white); border-top: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+.about-text p {
+  font-size: 1.05rem; color: var(--ink2); line-height: 1.9;
+  margin-bottom: 1.5rem; font-weight: 300;
+}
+.about-text p strong { color: var(--ink); font-weight: 500; }
+.about-text .accent-text { color: var(--accent); font-weight: 500; }
+.skills-col { display: flex; flex-direction: column; gap: 2.5rem; }
+.skill-group-title {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--muted); font-weight: 500; margin-bottom: 1rem;
+  padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+}
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+  color: var(--ink2);
+  background: var(--warm);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all 0.2s;
+  font-weight: 400;
+}
+.tag:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.tag.highlight { background: var(--accent-light); border-color: rgba(200,98,42,0.3); color: var(--accent); }
+
+/* ── EXPERIENCE ── */
+#experience { background: var(--cream); }
+.exp-list { display: flex; flex-direction: column; gap: 2px; }
+.exp-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 2.5rem 3rem;
+  display: grid; grid-template-columns: 1fr 2fr;
+  gap: 3rem; align-items: start;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.exp-item:hover { border-color: var(--accent); transform: translateX(4px); }
+.exp-left {}
+.exp-role {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+.exp-company {
+  font-size: 0.8rem; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  font-weight: 500; margin-bottom: 0.5rem;
+}
+.exp-date {
+  font-size: 0.75rem; color: var(--muted);
+  letter-spacing: 0.05em; margin-bottom: 1rem;
+}
+.exp-badge {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.65rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  border-radius: 2px; font-weight: 500;
+}
+.badge-active { background: rgba(200,98,42,0.1); color: var(--accent); border: 1px solid rgba(200,98,42,0.25); }
+.badge-done { background: var(--warm); color: var(--muted); border: 1px solid var(--border); }
+.exp-bullets { list-style: none; }
+.exp-bullets li {
+  font-size: 0.95rem; color: var(--ink2); line-height: 1.75;
+  padding: 0.45rem 0; padding-left: 1.25rem; position: relative;
+  font-weight: 300; border-bottom: 1px solid var(--border);
+}
+.exp-bullets li:last-child { border-bottom: none; }
+.exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 0.8rem; }
+.exp-bullets li strong { color: var(--ink); font-weight: 500; }
+
+/* ── PROJECTS ── */
+#projects { background: var(--warm); border-top: 1px solid var(--border); }
+.projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); }
+.project-card {
+  background: var(--white);
+  padding: 2.5rem;
+  transition: background 0.3s;
+  position: relative;
+}
+.project-card:hover { background: var(--cream); }
+.project-card:hover .project-link-arrow { transform: translateX(4px); }
+.project-num {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--muted); margin-bottom: 2rem; font-weight: 500;
+}
+.project-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.4rem; line-height: 1.25;
+  color: var(--ink); margin-bottom: 1rem; letter-spacing: -0.01em;
+}
+.project-desc {
+  font-size: 0.92rem; color: var(--muted); line-height: 1.7;
+  margin-bottom: 1.5rem; font-weight: 300;
+}
+.project-features { list-style: none; margin-bottom: 2rem; }
+.project-features li {
+  font-size: 0.85rem; color: var(--ink2);
+  padding: 0.3rem 0; padding-left: 1rem; position: relative;
+  font-weight: 300;
+}
+.project-features li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem; }
+.project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 2rem; }
+.stack-tag {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.68rem;
+  background: var(--warm);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 2px;
+}
+.project-link {
+  font-size: 0.78rem; color: var(--accent);
+  text-decoration: none; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.project-link-arrow { transition: transform 0.2s; }
+
+/* ── CONTACT ── */
+#contact { background: var(--ink); }
+#contact .section-label { color: rgba(200,98,42,0.8); }
+#contact .section-label::before { background: rgba(200,98,42,0.8); }
+.contact-inner { max-width: 720px; }
+.contact-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--cream);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+.contact-title em { font-style: italic; color: var(--accent); }
+.contact-sub {
+  font-size: 1rem; color: rgba(250,248,244,0.5);
+  line-height: 1.8; font-weight: 300; margin-bottom: 3.5rem;
+  max-width: 480px;
+}
+.contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.06); margin-bottom: 3rem; }
+.contact-card {
+  padding: 1.5rem 2rem;
+  background: rgba(255,255,255,0.03);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 1rem;
+  transition: background 0.2s;
+}
+.contact-card:hover { background: rgba(200,98,42,0.12); }
+.contact-icon { font-size: 1.1rem; }
+.contact-info {}
+.contact-info-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(250,248,244,0.4); font-weight: 500; margin-bottom: 0.2rem; }
+.contact-info-val { font-size: 0.85rem; color: var(--cream); font-weight: 400; }
+.availability-bar {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(200,98,42,0.1);
+  border: 1px solid rgba(200,98,42,0.2);
+  border-radius: 2px;
+}
+.avail-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; animation: pulse 2s infinite; flex-shrink: 0; }
+.avail-text { font-size: 0.82rem; color: rgba(250,248,244,0.7); }
+.avail-text strong { color: var(--cream); font-weight: 500; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ── FOOTER ── */
+footer {
+  background: #100e0c;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 1.5rem 5vw;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-text { font-size: 0.72rem; color: rgba(250,248,244,0.3); letter-spacing: 0.08em; }
+.footer-text span { color: rgba(200,98,42,0.6); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 1.25rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 0 1.5rem; padding-top: 80px; min-height: auto; padding-bottom: 4rem; }
+  .hero-right { display: none; }
+  .hero h1 { font-size: 3rem; }
+  section { padding: 5rem 1.5rem; }
+  .about-grid, .exp-item { grid-template-columns: 1fr; gap: 2rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; text-align: center; }
+}
+</style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">UM</div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div style="display: flex; gap: 1.5rem; align-items: center;">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
-                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
-            </div>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Umair Memon</h1>
-                    <p class="intro">I build LLM-powered systems, RAG pipelines, and automation workflows using LangChain, LangGraph, n8n, and modern ML libraries.</p>
-                    <div class="cta-buttons">
-                        <a href="#projects" class="btn btn-primary">View Projects</a>
-                        <a href="mailto:umics38@gmail.com" class="btn btn-outline">Contact Me</a>
-                    </div>
-                </div>
-            </div>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-name">Umair Memon</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-text">AI</div>
+  <div class="hero-content">
+    <div class="hero-label">
+      <span class="hero-label-dot"></span>
+      Available for hire · Pakistan
+    </div>
+    <h1>
+      Building AI that<br>
+      <em>actually works</em><br>
+      for your business.
+    </h1>
+    <p class="hero-desc">
+      I'm Umair — an AI Engineer specializing in <strong>LLM-powered systems, RAG pipelines, and intelligent automation</strong>. I turn complex AI into solutions that reduce your workload by 60%.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-dark">See My Work</a>
+      <a href="mailto:umairmemon314@gmail.com" class="btn-outline">Let's Talk</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-stat">
+      <div class="hero-stat-num">60%</div>
+      <div class="hero-stat-label">Workload Reduced</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5+</div>
+      <div class="hero-stat-label">Projects Shipped</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">45%</div>
+      <div class="hero-stat-label">Hallucination Cut</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">⭐</div>
+      <div class="hero-stat-label">Upwork Rising Talent</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">LangChain</span>
+    <span class="marquee-item">LangGraph</span>
+    <span class="marquee-item">RAG Pipelines</span>
+    <span class="marquee-item">Multi-Agent Systems</span>
+    <span class="marquee-item">n8n Automation</span>
+    <span class="marquee-item">FastAPI</span>
+    <span class="marquee-item">OpenAI</span>
+    <span class="marquee-item">Gemini</span>
+    <span class="marquee-item">ChromaDB</span>
+    <span class="marquee-item">Pinecone</span>
+    <span class="marquee-item">Docker</span>
+    <span class="marquee-item">LangSmith</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">LangChain</span>
+    <span class="marquee-item">LangGraph</span>
+    <span class="marquee-item">RAG Pipelines</span>
+    <span class="marquee-item">Multi-Agent Systems</span>
+    <span class="marquee-item">n8n Automation</span>
+    <span class="marquee-item">FastAPI</span>
+    <span class="marquee-item">OpenAI</span>
+    <span class="marquee-item">Gemini</span>
+    <span class="marquee-item">ChromaDB</span>
+    <span class="marquee-item">Pinecone</span>
+    <span class="marquee-item">Docker</span>
+    <span class="marquee-item">LangSmith</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">01 — About</div>
+  <div class="section-title reveal">The engineer behind<br>the <em>intelligence.</em></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm an <strong>AI Engineer</strong> from Pakistan, focused on building <span class="accent-text">LLM-powered systems</span> that solve real business problems — not just demos, but production-grade pipelines that actually ship and deliver measurable results.</p>
+      <p>Recognized as a <strong>Rising Talent on Upwork</strong>, I've delivered AI solutions that cut manual workloads by <strong>60%</strong>, reduced hallucination rates by <strong>45%</strong>, and improved retrieval accuracy by <strong>30%</strong> through advanced RAG techniques like parent-child chunking and reranking.</p>
+      <p>I studied <strong>Computer Systems Engineering</strong> at Quaid-e-Awam University. My obsession is building AI that your clients can trust and your team can rely on.</p>
+      <br>
+      <a href="https://github.com/umair741" target="_blank" class="btn-outline" style="font-size:0.78rem;">View GitHub →</a>
+    </div>
+    <div class="skills-col reveal">
+      <div>
+        <div class="skill-group-title">AI & LLM Stack</div>
+        <div class="tags">
+          <span class="tag highlight">LangChain</span>
+          <span class="tag highlight">LangGraph</span>
+          <span class="tag highlight">LangSmith</span>
+          <span class="tag">OpenAI API</span>
+          <span class="tag">Google Gemini</span>
+          <span class="tag">HuggingFace</span>
+          <span class="tag">Ollama</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">RAG Pipelines</span>
+          <span class="tag">AI Agents</span>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about section fade-in" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <p>I’m a passionate AI and machine learning developer dedicated to building intelligent solutions that bridge technology and real-world challenges. With a strong foundation in crafting advanced language model applications, vector database systems, and seamless automation workflows, I thrive on transforming complex ideas into practical, impactful tools. My expertise spans cutting-edge frameworks like LangChain, LangGraph, and n8n, enabling me to create innovative AI-driven systems that empower businesses and individuals alike. I’m driven by curiosity and a commitment to pushing the boundaries of what AI can achieve.</p>
-                
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>🤖 AI / Machine Learning</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">LLMs (Gemini)</span>
-                            <span class="skill-tag">OpenAI</span>
-                            <span class="skill-tag">Open-source Models</span>
-                            <span class="skill-tag">PyTorch</span>
-                            <span class="skill-tag">NLP</span>
-                            <span class="skill-tag">Matplotlib</span>
-                            <span class="skill-tag">Plotly</span>
-                            <span class="skill-tag">scikit-learn</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>🔗 LangChain Ecosystem</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">LangChain</span>
-                            <span class="skill-tag">LangGraph</span>
-                            <span class="skill-tag">LangSmith</span>
-                            <span class="skill-tag">Hugging Face</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>🗄️ Database & Automation</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">VectorDatabase ChromaDB</span>
-                            <span class="skill-tag">FAISS</span>
-                            <span class="skill-tag">Pinecone</span>
-                            <span class="skill-tag">MySQL</span>
-                            <span class="skill-tag">SQL</span>
-                            
-                            <span class="skill-tag">n8n</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>🐍 Development</h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">FastAPI</span>
-                            <span class="skill-tag">NumPy</span>
-                            <span class="skill-tag">pandas</span>
-                             <span class="skill-tag">Flash</span>
-                            <span class="skill-tag">Matplotlib</span>
-                            <span class="skill-tag">Plotly</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Automation & Databases</div>
+        <div class="tags">
+          <span class="tag highlight">n8n</span>
+          <span class="tag">Zapier</span>
+          <span class="tag">Make</span>
+          <span class="tag">ChromaDB</span>
+          <span class="tag">Pinecone</span>
+          <span class="tag">FAISS</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">MySQL</span>
         </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects section fade-in" id="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            
-            <div class="code-snippet">
-                <strong>Quick clone example:</strong><br>
-                <code>git clone https://github.com/umair741/rag_chatbot</code>
-            </div>
-            
-            <div class="projects-grid">
-                <!-- WhatsApp Ordering Assistant -->
-                <div class="project-card">
-                    <div class="project-image whatsapp-bg">
-                        <span>📱</span>
-                        <div class="project-badge">WhatsApp Bot</div>
-                    </div>
-                    <h3>AI-Powered WhatsApp Ordering Assistant</h3>
-                    <p>An intelligent WhatsApp food ordering assistant built with n8n and Google Gemini. Features multilingual support (English, Urdu, Sindhi), real-time inventory checking via Google Sheets, and automated order management with Slack notifications.</p>
-                    
-                    <div class="workflow-text">
-                        <strong>Workflow:</strong> WhatsApp → AI Agent (Gemini) → Inventory Check → Order Processing<br>
-                        <strong>Features:</strong><br>
-                        • Multilingual chat support<br>
-                        • Live inventory validation<br>
-                        • Automated order tracking<br>
-                        • Slack & Gmail notifications
-                    </div>
-                    
-                    <div class="tech-stack">
-                        <span class="tech-tag">n8n</span>
-                        <span class="tech-tag">Google Gemini</span>
-                        <span class="tech-tag">WhatsApp API</span>
-                        <span class="tech-tag">Google Sheets</span>
-                        <span class="tech-tag">Slack API</span>
-                        <span class="tech-tag">Gmail API</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/umair741/AI-Powered-WhatsApp-Ordering-Assistant-n8n-" target="_blank" class="btn btn-primary">View Code</a>
-                    </div>
-                </div>
-
-                <!-- RAG System -->
-                <div class="project-card">
-                    <div class="project-image rag-bg">
-                        <span>🧠</span>
-                        <div class="project-badge">RAG System</div>
-                    </div>
-                    <h3>RAG Chatbot (Retrieval-Augmented Generation)</h3>
-                    <p>A sophisticated RAG system that ingests PDFs, creates embeddings, stores them in vector databases, and serves contextual answers via a FastAPI backend using LangChain and LangGraph for intelligent document understanding.</p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">LangChain</span>
-                        <span class="tech-tag">LangGraph</span>
-                        <span class="tech-tag">ChromaDB</span>
-                        <span class="tech-tag">FAISS</span>
-                        <span class="tech-tag">Pinecone</span>
-                        <span class="tech-tag">FastAPI</span>
-                        <span class="tech-tag">LLM (Flash)</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/umair741/rag_chatbot" target="_blank" class="btn btn-primary">View Code</a>
-                    </div>
-                </div>
-
-                <!-- Travel AI Assistant -->
-                <div class="project-card">
-                    <div class="project-image travel-bg">
-                        <span>✈️</span>
-                        <div class="project-badge">AI Agent</div>
-                    </div>
-                    <h3>Travel AI Assistant (React-based Agent)</h3>
-                    <p>Intelligent travel companion that generates personalized itineraries and provides real-time suggestions using LangChain/LangGraph agents integrated with multiple external APIs for weather, places, and travel information.</p>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">LangChain</span>
-                        <span class="tech-tag">LangGraph</span>
-                        <span class="tech-tag">FastAPI</span>
-                        <span class="tech-tag">LLM (Flash)</span>
-                        <span class="tech-tag">Geoapify</span>
-                        <span class="tech-tag">OpenWeatherMap</span>
-                        <span class="tech-tag">Tavily</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/umair741/travel_assitant" target="_blank" class="btn btn-primary">View Code</a>
-                    </div>
-                </div>
-
-                <!-- Customer Feedback Workflow -->
-                <div class="project-card">
-                    <div class="project-image feedback-bg">
-                        <span>📋</span>
-                        <div class="project-badge">Automation</div>
-                    </div>
-                    <h3>Customer Feedback Workflow (n8n)</h3>
-                    <p>Intelligent customer feedback processing system that automatically routes feedback through an AI agent to different workflows: complaints to Airtable → Slack → Gmail; compliments to Airtable → Slack; feature requests to Airtable → Slack.</p>
-                    
-                    <div class="workflow-text">
-                        <strong>Workflow:</strong> Form Trigger → AI Agent (n8n + LLM) → Merge → Switch<br>
-                        <strong>Routing Paths:</strong><br>
-                        • Complaints → Airtable → Slack → Gmail<br>
-                        • Compliments → Airtable → Slack<br>
-                        • Feature Requests → Airtable → Slack
-                    </div>
-                    
-                    <div class="tech-stack">
-                        <span class="tech-tag">n8n</span>
-                        <span class="tech-tag">LLM (Flash)</span>
-                        <span class="tech-tag">Airtable</span>
-                        <span class="tech-tag">Slack</span>
-                        <span class="tech-tag">Gmail</span>
-                        <span class="tech-tag">Webhook</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/umair741/Customer-feedback-workflow" target="_blank" class="btn btn-primary">View Code</a>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Development & DevOps</div>
+        <div class="tags">
+          <span class="tag highlight">Python</span>
+          <span class="tag highlight">FastAPI</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Git</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">PyTorch</span>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Contact Section -->
-    <section class="contact section fade-in" id="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <p>I'm always interested in discussing AI projects, collaborations, and new opportunities in the exciting world of artificial intelligence.</p>
-                
-                <div class="contact-info">
-                    <a href="mailto:umics38@gmail.com" class="contact-link">
-                        <span>📧</span>
-                        <span>umics38@gmail.com</span>
-                    </a>
-                    <a href="https://github.com/umair741" target="_blank" class="contact-link">
-                        <span>💼</span>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/umairmemon38" target="_blank" class="contact-link">
-                        <span>🔗</span>
-                        <span>LinkedIn</span>
-                    </a>
-                </div>
-                
-                <div class="contact-note">
-                    <p><strong>Open to freelance & full-time AI roles</strong></p>
-                    <p>Ready to build intelligent systems that make a real difference in businesses and people's lives.</p>
-                </div>
-            </div>
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label reveal">02 — Experience</div>
+  <div class="section-title reveal">Where I've done<br>the <em>real work.</em></div>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-left">
+        <div class="exp-role">AI Engineer & Automation Expert</div>
+        <div class="exp-company">Upwork — Freelance</div>
+        <div class="exp-date">2025 — Present</div>
+        <span class="exp-badge badge-active">⭐ Rising Talent</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Engineered <strong>n8n workflows</strong> integrating Gmail, Airtable, Sheets & WhatsApp — eliminating 10+ hours/week of manual tasks and cutting operational costs by <strong>40%</strong>.</li>
+        <li>Deployed <strong>WhatsApp & Voice AI Agents</strong> using Vapi for 24/7 automated client interactions with zero downtime.</li>
+        <li>Architected <strong>Multi-Agent Systems</strong> with LangChain & LangGraph, reducing response time by <strong>35%</strong> across client workflows.</li>
+        <li>Built production-grade <strong>RAG pipelines</strong> with parent-child chunking & reranking — cutting hallucination rate by 45%, improving retrieval by 30%.</li>
+      </ul>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-left">
+        <div class="exp-role">AI Developer Intern</div>
+        <div class="exp-company">OpenZoneAI — Nawabshah</div>
+        <div class="exp-date">Dec 2024 — Mar 2025</div>
+        <span class="exp-badge badge-done">Completed</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Developed a <strong>context-aware AI Chatbot</strong> and RAG pipeline for document Q&A using LangChain, ChromaDB, and HuggingFace — improving retrieval accuracy by <strong>40%</strong>.</li>
+        <li>Benchmarked <strong>4 LLMs</strong> (OpenAI, Claude, Mistral, Llama) via Ollama to identify best-fit models per use case and budget.</li>
+        <li>Integrated third-party APIs and used <strong>LangSmith</strong> for full pipeline tracing, debugging, and token monitoring.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">03 — Projects</div>
+  <div class="section-title reveal">Things I've built that<br><em>ship to production.</em></div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 01</div>
+      <h3 class="project-title">EstateGenius — Real Estate RAG Chatbot</h3>
+      <p class="project-desc">Full-stack RAG system where admins upload property PDFs and users query them via a conversational AI interface with role-based JWT authentication.</p>
+      <ul class="project-features">
+        <li>JWT-based Admin/User role authentication</li>
+        <li>Automatic PDF chunking + embedding pipeline</li>
+        <li>Persistent ChromaDB vector store with memory</li>
+        <li>PostgreSQL for user management</li>
+      </ul>
+      <div class="project-stack">
+        <span class="stack-tag">LangChain</span>
+        <span class="stack-tag">Gemini</span>
+        <span class="stack-tag">HuggingFace</span>
+        <span class="stack-tag">ChromaDB</span>
+        <span class="stack-tag">FastAPI</span>
+        <span class="stack-tag">PostgreSQL</span>
+        <span class="stack-tag">JWT</span>
+      </div>
+      <a href="https://github.com/umair741" target="_blank" class="project-link">View on GitHub <span class="project-link-arrow">→</span></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 02</div>
+      <h3 class="project-title">AI Travel Assistant — ReAct Agent</h3>
+      <p class="project-desc">ReAct Agent powered by Gemini that autonomously plans multi-day trips, fetches real-time weather, finds nearby places, and searches the web.</p>
+      <ul class="project-features">
+        <li>Session-based ConversationSummaryBufferMemory</li>
+        <li>LangSmith tracing for token & latency monitoring</li>
+        <li>Containerized with Docker for production</li>
+        <li>OpenWeatherMap, Geoapify, Tavily integrations</li>
+      </ul>
+      <div class="project-stack">
+        <span class="stack-tag">LangChain</span>
+        <span class="stack-tag">LangGraph</span>
+        <span class="stack-tag">Gemini</span>
+        <span class="stack-tag">FastAPI</span>
+        <span class="stack-tag">Docker</span>
+        <span class="stack-tag">LangSmith</span>
+      </div>
+      <a href="https://github.com/umair741/travel_assitant" target="_blank" class="project-link">View on GitHub <span class="project-link-arrow">→</span></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 03</div>
+      <h3 class="project-title">WhatsApp AI Ordering Assistant</h3>
+      <p class="project-desc">Intelligent WhatsApp food ordering assistant with multilingual support (English, Urdu, Sindhi), real-time inventory, and automated notifications via n8n.</p>
+      <ul class="project-features">
+        <li>Multilingual: English, Urdu, Sindhi</li>
+        <li>Live inventory validation via Google Sheets</li>
+        <li>Automated order tracking & routing</li>
+        <li>Slack & Gmail notification pipeline</li>
+      </ul>
+      <div class="project-stack">
+        <span class="stack-tag">n8n</span>
+        <span class="stack-tag">Gemini</span>
+        <span class="stack-tag">WhatsApp API</span>
+        <span class="stack-tag">Google Sheets</span>
+        <span class="stack-tag">Slack</span>
+      </div>
+      <a href="https://github.com/umair741/AI-Powered-WhatsApp-Ordering-Assistant-n8n-" target="_blank" class="project-link">View on GitHub <span class="project-link-arrow">→</span></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">Project 04</div>
+      <h3 class="project-title">Customer Feedback Workflow — n8n</h3>
+      <p class="project-desc">AI-powered feedback routing system that classifies customer input and automatically dispatches complaints, compliments, and feature requests to the right channels.</p>
+      <ul class="project-features">
+        <li>AI-powered sentiment classification & routing</li>
+        <li>Complaints → Airtable → Slack → Gmail escalation</li>
+        <li>Webhook-triggered form integration</li>
+        <li>Zero manual triage required</li>
+      </ul>
+      <div class="project-stack">
+        <span class="stack-tag">n8n</span>
+        <span class="stack-tag">Gemini Flash</span>
+        <span class="stack-tag">Airtable</span>
+        <span class="stack-tag">Slack</span>
+        <span class="stack-tag">Gmail</span>
+      </div>
+      <a href="https://github.com/umair741/Customer-feedback-workflow" target="_blank" class="project-link">View on GitHub <span class="project-link-arrow">→</span></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label reveal">04 — Contact</div>
+    <h2 class="contact-title reveal">
+      Let's build something<br><em>intelligent</em> together.
+    </h2>
+    <p class="contact-sub reveal">
+      Open to freelance AI projects, full-time roles, and collaboration. If you need LLMs, RAG pipelines, or workflow automation — I'm ready.
+    </p>
+    <div class="contact-grid reveal">
+      <a href="mailto:umairmemon314@gmail.com" class="contact-card">
+        <span class="contact-icon">📧</span>
+        <div class="contact-info">
+          <div class="contact-info-label">Email</div>
+          <div class="contact-info-val">umairmemon314@gmail.com</div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Umair Memon. Built with modern web technologies and a passion for AI.</p>
+      </a>
+      <a href="https://github.com/umair741" target="_blank" class="contact-card">
+        <span class="contact-icon">⌥</span>
+        <div class="contact-info">
+          <div class="contact-info-label">GitHub</div>
+          <div class="contact-info-val">github.com/umair741</div>
         </div>
-    </footer>
+      </a>
+      <a href="https://www.linkedin.com/in/umairmemon38" target="_blank" class="contact-card">
+        <span class="contact-icon">🔗</span>
+        <div class="contact-info">
+          <div class="contact-info-label">LinkedIn</div>
+          <div class="contact-info-val">linkedin.com/in/umairmemon38</div>
+        </div>
+      </a>
+      <a href="https://www.upwork.com" target="_blank" class="contact-card">
+        <span class="contact-icon">⭐</span>
+        <div class="contact-info">
+          <div class="contact-info-label">Upwork</div>
+          <div class="contact-info-val">Rising Talent · Available Now</div>
+        </div>
+      </a>
+    </div>
+    <div class="availability-bar reveal">
+      <div class="avail-dot"></div>
+      <div class="avail-text"><strong>Currently available</strong> for freelance projects and full-time opportunities · Based in Pakistan · Open to remote work worldwide</div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
+<!-- FOOTER -->
+<footer>
+  <div class="footer-text">© 2025 <span>Umair Memon</span> — AI Engineer</div>
+  <div class="footer-text">+92-316-3620471 · Karachi, Pakistan</div>
+</footer>
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        body.setAttribute('data-theme', savedTheme);
-        updateThemeIcon(savedTheme);
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
 
-        function updateThemeIcon(theme) {
-            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-        }
-
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Smooth Scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    navLinks.classList.remove('active');
-                }
-            });
-        });
-
-        // Fade In Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav')) {
-                navLinks.classList.remove('active');
-            }
-        });
-    </script>
+// Nav shadow on scroll
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.boxShadow =
+    window.scrollY > 20 ? '0 2px 20px rgba(0,0,0,0.06)' : 'none';
+});
+</script>
 </body>
 </html>
